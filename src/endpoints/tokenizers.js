@@ -398,83 +398,40 @@ function getWebTokenizersChunks(tokenizer, ids) {
  * @returns {string} Tokenizer model to use
  */
 export function getTokenizerModel(requestModel) {
-    if (requestModel.includes('o1-preview') || requestModel.includes('o1-mini') || requestModel.includes('o3-mini')) {
+    if (modelStrTest(requestModel, 'o1', 'o3', '4o'))
         return 'gpt-4o';
-    }
-
-    if (requestModel.includes('gpt-4o')) {
-        return 'gpt-4o';
-    }
-
-    if (requestModel.includes('chatgpt-4o-latest')) {
-        return 'gpt-4o';
-    }
-
-    if (requestModel.includes('gpt-4-32k')) {
+    if (modelStrTest(requestModel, 'gpt-4-32k'))
         return 'gpt-4-32k';
-    }
-
-    if (requestModel.includes('gpt-4')) {
+    if (modelStrTest(requestModel, 'gpt-4'))
         return 'gpt-4';
-    }
-
-    if (requestModel.includes('gpt-3.5-turbo-0301')) {
+    if (modelStrTest(requestModel, 'gpt-3.5-turbo-0301'))
         return 'gpt-3.5-turbo-0301';
-    }
-
-    if (requestModel.includes('gpt-3.5-turbo')) {
+    if (modelStrTest(requestModel, 'gpt-3.5-turbo'))
         return 'gpt-3.5-turbo';
-    }
-
-    if (TEXT_COMPLETION_MODELS.includes(requestModel)) {
+    if (TEXT_COMPLETION_MODELS.includes(requestModel))
         return requestModel;
-    }
-
-    if (requestModel.includes('claude')) {
+    if (modelStrTest(requestModel, 'claude'))
         return 'claude';
-    }
-
-    if (requestModel.includes('llama3') || requestModel.includes('llama-3')) {
+    if (modelStrTest(requestModel, 'llama-3'))
         return 'llama3';
-    }
-
-    if (requestModel.includes('llama')) {
+    if (modelStrTest(requestModel, 'llama'))
         return 'llama';
-    }
-
-    if (requestModel.includes('mistral')) {
+    if (modelStrTest(requestModel, 'mistral'))
         return 'mistral';
-    }
-
-    if (requestModel.includes('yi')) {
+    if (modelStrTest(requestModel, 'yi'))
         return 'yi';
-    }
-
-    if (requestModel.includes('deepseek')) {
+    if (modelStrTest(requestModel, 'deepseek'))
         return 'deepseek';
-    }
-
-    if (requestModel.includes('gemma') || requestModel.includes('gemini')) {
+    if (modelStrTest(requestModel, 'gemma', 'gemini'))
         return 'gemma';
-    }
-
-    if (requestModel.includes('jamba')) {
+    if (modelStrTest(requestModel, 'jamba'))
         return 'jamba';
-    }
-
-    if (requestModel.includes('qwen2')) {
+    if (modelStrTest(requestModel, 'qwen-2'))
         return 'qwen2';
-    }
-
-    if (requestModel.includes('command-r')) {
+    if (modelStrTest(requestModel, 'command-r'))
         return 'command-r';
-    }
-
-    if (requestModel.includes('nemo')) {
+    if (modelStrTest(requestModel, 'nemo'))
         return 'nemo';
-    }
-
-    // default
     return 'gpt-3.5-turbo';
 }
 
