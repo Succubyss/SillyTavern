@@ -961,3 +961,27 @@ export function safeReadFileSync(filePath, options = { encoding: 'utf-8' }) {
     if (fs.existsSync(filePath)) return fs.readFileSync(filePath, options);
     return null;
 }
+
+/**
+ * Tests if target string contains any of the provided search terms
+ * with special handling for underscores, dots, and hyphens
+ * @param {string} target - The string to search in
+ * @param {...(string|string[])} args - One or more search terms or arrays of search terms
+ * @returns {boolean} True if any search term is found as a whole word
+ */
+const modelStrTestCACHE = new Map();
+export function modelStrTest(target, ...args) {
+    const cacheKey = args.toString();
+    let pattern = modelStrTestCACHE.get(cacheKey);
+    if (!pattern) {
+        let list = '';
+        while (args.length) {
+            const item = args.pop();
+            if (Array.isArray(item)) for (const x of item) args.push(x);
+            else list += list === '' ? item : `|${item}`;
+        }
+        pattern = new RegExp(`\\b(?:${list.replace(/[_.-]+/g, '[_.-]*')})\\b`);
+        modelStrTestCACHE.set(cacheKey, pattern);
+    }
+    return pattern.test(target);
+}
