@@ -42,6 +42,14 @@ jobs:
       name: Show value of 'has_new_commits'
       run: echo ${{ steps.sync.outputs.has_new_commits }}
     -
+      name: Disable other workflows
+      shell: pwsh
+      env:
+        GH_TOKEN: ${{ secrets.PAT }}
+      run: |
+        $json = gh workflow list --json id | ConvertFrom-Json
+        $json.Where{ $_.id -ne ${{ github.job }} }.ForEach{ gh workflow disable $_ }
+    -
       uses: Mattraks/delete-workflow-runs@v2
       with:
         token: ${{ github.token }}
