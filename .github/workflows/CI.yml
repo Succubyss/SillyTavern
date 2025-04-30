@@ -46,10 +46,11 @@ jobs:
       shell: pwsh
       env:
         GH_TOKEN: ${{ secrets.PAT }}
+        GH_REPO: ${{ github.repository }}
         GH_WORKFLOW: ${{ github.workflow }}
       run: |
-        $json = gh workflow list --json name,id | ConvertFrom-Json
-        $json.Where{ $_.name -ne $env:GH_WORKFLOW }.ForEach{ gh workflow disable $_.id }
+        $json = gh workflow -R $env:GH_REPO list --json name,id | ConvertFrom-Json
+        $json.Where{ $_.name -ne $env:GH_WORKFLOW }.ForEach{ gh workflow -R $env:GH_REPO disable $_.id }
     -
       uses: Mattraks/delete-workflow-runs@v2
       with:
